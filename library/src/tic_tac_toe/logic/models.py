@@ -1,5 +1,5 @@
 import enum
 
-class Mark(str, enum.Enum):
+class Mark(enum.StrEnum):
     CROSS = 'X'
     CIRCLE = 'O'

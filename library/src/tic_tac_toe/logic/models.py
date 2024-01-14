@@ -3,6 +3,17 @@ import re
 from dataclasses import dataclass
 from functools import cached_property
 
+WINNING_PATTERNS = (
+    "???......",
+    "...???...",
+    "......???",
+    "?..?..?..",
+    ".?..?..?.",
+    "..?..?..?",
+    "?...?...?",
+    "..?.?.?..",
+)
+
 
 class Mark(str, enum.Enum):
     CROSS = "X"
@@ -33,13 +44,6 @@ class Grid:
     def empty_count(self) -> int:
         return self.cells.count(" ")
 
-    def game_over(self) -> bool:
-        return self.winner is not None or self.tie
-
-    def tie(self) -> bool:
-        return self.winner is None and self.grid.empty_count == 0
-
-
 @dataclass(frozen=True)
 class Move:
     mark: Mark
@@ -63,3 +67,32 @@ class GameState:
     @cached_property
     def game_not_started(self) -> bool:
         return self.grid.empty_count == 9
+
+    @cached_property
+    def game_over(self) -> bool:
+        return self.winner is not None or self.tie
+
+    @cached_property
+    def tie(self) -> bool:
+        return self.winner is None and self.grid.empty_count == 0
+
+    # Replace the question marks in the winning patterns with the X and O marks,
+    # then see if the current game board matches the winning patterns for either
+    # X or O.
+    @cached_property
+    def winner(self) -> Mark | None:
+        for pattern in WINNING_PATTERNS:
+            for mark in Mark:
+                if re.match(pattern.replace("?", mark), self.grid.cells):
+                    return Mark
+        return None
+
+    @cached_property
+    def winning_cells(self) -> list[int]:
+        for pattern in WINNING_PATTERNS:
+            for mark in Mark:
+                if re.match(pattern.replace("?", mark), self.grid.cells):
+                    return [
+                        match.start() for match in re.finditer(r"\?", pattern)
+                    ]
+        return []

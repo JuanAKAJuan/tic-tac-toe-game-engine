@@ -2,6 +2,7 @@ import enum
 import re
 from dataclasses import dataclass
 from functools import cached_property
+from tic_tac_toe.logic.validators import validate_game_state, validate_grid
 
 WINNING_PATTERNS = (
     "???......",
@@ -29,8 +30,7 @@ class Grid:
     cells: str = " " * 9
 
     def __post_init__(self) -> None:
-        if not re.match(r"^[\sXO]{9}$", self.cells):
-            raise ValueError("Must contain 9 cells of: X, O, or space")
+        validate_grid(self)
 
     @cached_property
     def x_count(self) -> int:
@@ -44,11 +44,12 @@ class Grid:
     def empty_count(self) -> int:
         return self.cells.count(" ")
 
+
 @dataclass(frozen=True)
 class Move:
     mark: Mark
     cell_index: int
-    before_state: "GameState"
+    before_state: "GameState"  # Forward declaration
     after_state: "GameState"
 
 
@@ -56,6 +57,9 @@ class Move:
 class GameState:
     grid: Grid
     starting_mark: Mark = Mark("X")
+
+    def __post_init__(self) -> None:
+        validate_game_state(self)
 
     @cached_property
     def current_mark(self) -> Mark:
@@ -76,9 +80,9 @@ class GameState:
     def tie(self) -> bool:
         return self.winner is None and self.grid.empty_count == 0
 
-    # Replace the question marks in the winning patterns with the X and O marks,
-    # then see if the current game board matches the winning patterns for either
-    # X or O.
+    # Replace the question marks in the winning patterns with the X and O
+    # marks, then see if the current game board matches the winning patterns
+    # for either X or O.
     @cached_property
     def winner(self) -> Mark | None:
         for pattern in WINNING_PATTERNS:
@@ -92,7 +96,5 @@ class GameState:
         for pattern in WINNING_PATTERNS:
             for mark in Mark:
                 if re.match(pattern.replace("?", mark), self.grid.cells):
-                    return [
-                        match.start() for match in re.finditer(r"\?", pattern)
-                    ]
+                    return [match.start() for match in re.finditer(r"\?", pattern)]
         return []

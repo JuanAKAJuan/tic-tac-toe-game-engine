@@ -1,6 +1,8 @@
 from __future__ import annotations
-from typing import TYPE_CHECKING
+
 import re
+from typing import TYPE_CHECKING
+
 from tic_tac_toe.logic.exceptions import InvalidGameState
 
 if TYPE_CHECKING:

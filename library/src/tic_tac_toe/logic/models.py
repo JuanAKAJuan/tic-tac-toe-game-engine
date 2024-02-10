@@ -120,7 +120,7 @@ class GameState:
                 Grid(
                     self.grid.cells[:index]
                     + self.current_mark
-                    + self.grid.cells[index + 1]
+                    + self.grid.cells[index + 1:]
                 ),
                 self.starting_mark,
             ),

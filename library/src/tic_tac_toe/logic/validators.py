@@ -18,7 +18,8 @@ def validate_grid(grid: Grid) -> None:
 def validate_game_state(game_state: GameState) -> None:
     validate_number_of_marks(game_state.grid)
     validate_starting_mark(game_state.grid, game_state.starting_mark)
-    validate_winner(game_state.grid, game_state.starting_mark, game_state.winner)
+    validate_winner(game_state.grid, game_state.starting_mark,
+                    game_state.winner)
 
 
 def validate_number_of_marks(grid: Grid) -> None:

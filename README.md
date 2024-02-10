@@ -1,4 +1,4 @@
-# tic-tac-toe-game-engine
+# Tic-Tac-Toe Game Engine with AI Opponent
 
 Make a virtual environment using the command line if your editor doesn't already
 give you the option to create one.

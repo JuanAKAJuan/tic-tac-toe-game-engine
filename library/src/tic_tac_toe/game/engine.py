@@ -20,6 +20,7 @@ class TicTacToe:
     def __post_init__(self):
         validate_players(self.player1, self.player2)
 
+    # The main gameplay loop
     def play(self, starting_mark: Mark = Mark("X")) -> None:
         game_state = GameState(Grid(), starting_mark)
         while True:

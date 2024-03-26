@@ -1,3 +1,4 @@
+from __future__ import annotations
 import enum
 import random
 import re
@@ -24,7 +25,7 @@ class Mark(str, enum.Enum):
     CIRCLE = "O"
 
     @property
-    def other(self) -> "Mark":
+    def other(self) -> Mark:
         return Mark.CROSS if self is Mark.CIRCLE else Mark.CIRCLE
 
 
@@ -137,7 +138,7 @@ class GameState:
         if self.game_over:
             if self.tie:
                 return 0
-            if self.winner:
+            if self.winner is mark:
                 return 1
             else:
                 return -1

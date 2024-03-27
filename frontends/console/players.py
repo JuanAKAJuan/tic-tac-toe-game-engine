@@ -9,7 +9,7 @@ class ConsolePlayer(Player):
     def get_move(self, game_state: GameState) -> Move | None:
         while not game_state.game_over:
             try:
-                index = grid_to_index(input(f"{self.mark}'s move: ").strip())
+                index = grid_to_index(input(f"{self.mark.value}'s move: ").strip())
             except ValueError:
                 print("Please provide coordinates in the form of A1 or 1A")
             else:

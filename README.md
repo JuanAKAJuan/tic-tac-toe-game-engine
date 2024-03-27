@@ -14,17 +14,18 @@ being worked on instead of having to rebuild and install the library every time
 a change is made.
 ```Shell
 $ source venv/bin/activate
-$ python -m pip install --editable library/
+$ python3 -m pip install --editable library/
 ```
 
 In order to start the game, it must be decided who is going to play. If you want
 to have two people play against each other, use the following command inside of the
 *frontends/* directory.
 ```Shell
-(venv) $ python -m console -X human -O human
+(venv) $ python3 -m console -X human -O human
 ```
 
 The -X and -O are the starting marks for each player. These can be interchanged
 as long there are no duplicate marks. To change the players from humans to
 computers, change the **human** to **random**. By changing both human values
 to random, you can watch as two computers face each other with "random" choices.
+You can also have the AI opponent play by changing one or both of the values to **minimax**.
